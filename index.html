@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Bacha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+<div id="fireflies"></div>
+<div id="constellation"><svg id="constSvg" viewBox="0 0 300 280"></svg></div>
+
+<div id="chickCompanion" onclick="chickChirp()">
+  <svg viewBox="0 0 100 100">
+    <ellipse cx="50" cy="62" rx="30" ry="26" fill="var(--gold)"/>
+    <circle cx="50" cy="36" r="21" fill="var(--gold)"/>
+    <circle cx="42" cy="33" r="3.2" fill="var(--ink)"/>
+    <circle cx="58" cy="33" r="3.2" fill="var(--ink)"/>
+    <polygon points="50,40 45,47 55,47" fill="var(--rose)"/>
+  </svg>
+  <div class="chick-msg" id="chickMsg"></div>
+</div>
+<div id="clocks">
+  <div class="zone"><b id="clockYou">--:--</b><span class="lbl">You</span></div>
+  <div class="sep"></div>
+  <div class="zone"><b id="clockHer">--:--</b><span class="lbl">Her · Canada</span></div>
+</div>
+
+<div id="app">
+
+  <!-- PASSWORD -->
+  <section class="screen active" id="password">
+    <div class="egg-wrap" id="eggWrap">
+      <div class="egg-top"></div>
+      <div class="egg-bottom"></div>
+      <svg class="egg-chick" viewBox="0 0 100 100">
+        <ellipse cx="50" cy="60" rx="34" ry="30" fill="var(--gold)"/>
+        <circle cx="50" cy="34" r="24" fill="var(--gold)"/>
+        <circle cx="41" cy="30" r="4" fill="var(--ink)"/>
+        <circle cx="59" cy="30" r="4" fill="var(--ink)"/>
+        <polygon points="50,36 44,44 56,44" fill="var(--rose)"/>
+        <path d="M30 18 Q35 6 44 14" stroke="var(--gold)" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M70 18 Q65 6 56 14" stroke="var(--gold)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>This one's just for you</h1>
+    <div class="sub">enter the passcode, boo</div>
+    <div class="bday-badge" id="bdayBadge">
+      <span class="bday-date">28.07.2004</span>
+      <span class="bday-line" id="bdayLine">counting down...</span>
+    </div>
+    <div class="pass-input-wrap">
+      <div class="pass-display placeholder" id="passDisplay">Enter code</div>
+      <div class="keypad">
+        <button type="button" class="key" onclick="keypadPress('1')">1</button>
+        <button type="button" class="key" onclick="keypadPress('2')">2</button>
+        <button type="button" class="key" onclick="keypadPress('3')">3</button>
+        <button type="button" class="key" onclick="keypadPress('4')">4</button>
+        <button type="button" class="key" onclick="keypadPress('5')">5</button>
+        <button type="button" class="key" onclick="keypadPress('6')">6</button>
+        <button type="button" class="key" onclick="keypadPress('7')">7</button>
+        <button type="button" class="key" onclick="keypadPress('8')">8</button>
+        <button type="button" class="key" onclick="keypadPress('9')">9</button>
+        <button type="button" class="key key-clear" onclick="keypadClear()">Clear</button>
+        <button type="button" class="key" onclick="keypadPress('0')">0</button>
+        <button type="button" class="key key-enter" onclick="keypadEnter()">Enter</button>
+      </div>
+    </div>
+    <div class="pass-error" id="passError">that's not quite it, try again</div>
+    <div class="pass-hint">a number that means something to us</div>
+  </section>
+
+  <!-- YES/NO GAME -->
+  <section class="screen" id="question">
+    <div class="eyebrow">before we start</div>
+    <h1 id="questionH1">Do you want to see something I made for you, bacha?</h1>
+    <div class="game-msg" id="gameMsg">&nbsp;</div>
+    <div class="game-box">
+      <button class="game-btn" id="yesBtn" onclick="celebrateYes()">Yes</button>
+      <button class="game-btn" id="noBtn" onclick="chooseNo()">No</button>
+    </div>
+  </section>
+
+  <!-- LOCKED (shown if she presses No) -->
+  <section class="screen" id="locked">
+    <div class="broken-wrap">
+      <div class="broken-heart">&#128148;</div>
+      <h1>you broke my heart, bacha.</h1>
+      <p class="sub">that wasn't the right answer... want to pick again?</p>
+      <button class="open-btn show" onclick="retryQuestion()">Let me pick again</button>
+    </div>
+  </section>
+
+  <!-- COVER -->
+  <section class="screen" id="cover">
+    <div class="eyebrow">a small gift, across the distance</div>
+    <div class="envelope-wrap" id="envelope" onclick="openEnvelope()">
+      <div class="envelope">
+        <div class="letter-peek"></div>
+        <div class="env-body"></div>
+        <div class="flap"></div>
+        <div class="seal">&#10084;</div>
+      </div>
+    </div>
+    <h1>Happy Birthday,<br>Bacha</h1>
+    <p class="sub">from your boy, under the same sky</p>
+    <div class="open-hint" id="openHint">tap the envelope</div>
+    <button class="open-btn" id="openBtn" onclick="goTo(3)">Open your gift</button>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="screen" id="gallery">
+    <div class="card-wrap">
+      <button class="nav-arrow" id="prevBtn" onclick="prevSlide()" aria-label="Previous">&#8592;</button>
+      <div class="postcard" id="postcard">
+        <div class="polaroid">
+          <img id="slideImg" src="" alt="" onerror="this.style.display='none'; document.getElementById('slideFallback').style.display='flex';">
+          <div class="fallback" id="slideFallback" style="display:none;">
+            <div class="heart">&#9825;</div>
+            <div id="fallbackText">photo coming soon</div>
+          </div>
+        </div>
+        <div class="slide-index" id="slideIndex">Letter 01 / 16</div>
+        <div class="slide-caption" id="slideCaption"></div>
+        <div class="dots" id="dots"></div>
+      </div>
+      <button class="nav-arrow" id="nextBtn" onclick="nextSlide()" aria-label="Next">&#8594;</button>
+    </div>
+    <div class="swipe-hint">swipe to continue</div>
+  </section>
+
+  <!-- JAR OF LOVE -->
+  <section class="screen" id="jar">
+    <div class="eyebrow">open me</div>
+    <h1 class="jar-title">The jar of love</h1>
+    <p class="jar-sub">Tap the jar, boo. One reason at a time.</p>
+    <div class="jar-stage">
+      <svg class="jar-svg" id="jarSvg" viewBox="0 0 150 180" onclick="nextJarNote()">
+        <rect x="30" y="30" width="90" height="130" rx="14" fill="rgba(245,233,220,0.06)" stroke="var(--gold)" stroke-width="2.5"/>
+        <rect x="40" y="8" width="70" height="24" rx="8" fill="var(--gold)"/>
+        <ellipse cx="55" cy="90" rx="9" ry="6" fill="var(--rose)"/>
+        <ellipse cx="90" cy="70" rx="9" ry="6" fill="var(--rose-soft)"/>
+        <ellipse cx="75" cy="115" rx="9" ry="6" fill="var(--rose)"/>
+        <ellipse cx="100" cy="120" rx="9" ry="6" fill="var(--rose-soft)"/>
+      </svg>
+      <div class="jar-note" id="jarNote"></div>
+      <div class="dots" id="jarDots"></div>
+    </div>
+    <button class="open-btn jar-continue" id="jarContinueBtn" onclick="playShootingTransition(function(){ goTo(5); })">Continue</button>
+  </section>
+
+  <!-- SCRATCH TO REVEAL -->
+  <section class="screen" id="scratch">
+    <div class="eyebrow">a secret, just for you</div>
+    <h1 class="jar-title">Scratch to reveal</h1>
+    <p class="jar-sub">Use your finger or your mouse, right here.</p>
+    <div class="scratch-wrap">
+      <!-- EDIT ME: put your own secret message here -->
+      <div class="scratch-message" id="scratchMessage">Secret: even on my hardest days, thinking of your face fixes something in me that nothing else can. That's not a birthday line — that's just true.</div>
+      <canvas id="scratchCanvas" width="360" height="220"></canvas>
+      <div class="scratch-hint" id="scratchHint">scratch here, boo</div>
+    </div>
+    <button class="open-btn scratch-continue" id="scratchContinueBtn" onclick="playShootingTransition(function(){ goTo(6); })">Continue</button>
+  </section>
+
+  <!-- MEMORY MATCH GAME -->
+  <section class="screen" id="memorymatch">
+    <div class="eyebrow">one more game</div>
+    <h1 class="jar-title">Match your own memories</h1>
+    <p class="jar-sub" id="matchSub">Find every pair, boo.</p>
+    <div class="match-grid" id="matchGrid"></div>
+    <button class="open-btn match-continue" id="matchContinueBtn" onclick="playShootingTransition(function(){ goTo(7); })">Continue</button>
+  </section>
+
+  <!-- FINALE -->
+  <section class="screen" id="finale">
+    <div class="center-col">
+      <div class="letter" id="letterBox">
+        <div class="eyebrow" style="text-align:left; margin-bottom:6px;">for you, boo</div>
+        <div class="to">My Bacha,</div>
+        <p>Happy Birthday, Bacha! &#128536;&#10084;&#65039; This day is not only special for you, it's special for me too, because today is the day my favourite person came into this world and made my life brighter.</p>
+        <p>I hope aaj ka din aapke liye bahut saari beautiful memories lekar aaye, because you deserve all the love, happiness, and success in the world. I pray that you achieve everything you've ever dreamed of.</p>
+        <p>I'm sorry that I couldn't make your birthday as special as I wanted to, and I couldn't give you the best gift that I dreamed of giving you. We had so many plans for this day. And it's not just because of the deal you made with me — I genuinely wanted to give you something special. But sorry, my bacha... your boy couldn't make it happen this time.</p>
+        <p>I just hope this little message reminds you how much you mean to me.</p>
+        <p>Thank you for being a part of my life. Thank you for every smile, every laugh, and every beautiful moment we've shared. You make my life better just by being in it.</p>
+        <p>On your birthday, I just pray to God to bless my girl first, then me with good health, success, peace, and all the happiness that you truly deserve. And I also pray that God brings us together as soon as possible.</p>
+        <p>And today, I want to make you one promise...</p>
+        <p>One day, I'll make your birthday as special as you've always deserved. Because if I love you, then it's my responsibility to make you the happiest girl in the world.</p>
+        <p>So until then, bas aap hamesha smile karte rehna, and please take care of yourself, because you mean everything to me.</p>
+        <p>No matter how many miles or kilometres separate us, you'll always have a very special place in my heart.</p>
+        <p>Once again, Happy Birthday, my beautiful wife. &#10084;&#65039; I love you so much my bacha. You are my peace. Have the most amazing birthday. Enjoy your day, Bacha. &#128536;&#127874;&#10084;&#65039;</p>
+        <div class="sign">— your Bear, always <span class="glow-heart">&#10084;&#65039;</span></div>
+      </div>
+      <button class="restart-btn" onclick="restartAll()">Read again from the start</button>
+      <button class="print-btn" onclick="printLetter()">Print this letter</button>
+    </div>
+  </section>
+
+</div>
+<div class="shooting-transition" id="shootTransition"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
