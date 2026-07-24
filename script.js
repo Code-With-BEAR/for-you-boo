@@ -276,7 +276,7 @@
     { src: "bacha11.jpeg", caption: "Classic never competes 🖤. Timeless over trendy." },
     { src: "bacha12.jpeg", caption: "The best moments are rarely planned — a teddy bear and a laugh mid-photo say enough." },
     { src: "bacha13.jpeg", caption: "Confidence is quiet, style is effortless — simple, elegant, unforgettable ❤️." },
-    { src: "bacha14.jpeg", caption: "Her eyes are poetry written in silence ✨. Not just beautiful eyes — beautiful intentions." },
+    { src: "bacha14.jpeg", caption: "your eyes are poetry written in silence ✨. Not just beautiful eyes — beautiful intentions." },
     { src: "bacha15.jpeg", caption: "In a world full of people, this is my favorite one to come home to ❤️. Different journeys, one frame." },
   ];
   const N = slides.length;
